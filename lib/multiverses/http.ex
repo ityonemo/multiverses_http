@@ -4,7 +4,10 @@ defmodule Multiverses.Http do
   @this {:global, __MODULE__}
 
   def start_link(_) do
-    GenServer.start_link(__MODULE__, [], name: @this)
+    case GenServer.start_link(__MODULE__, [], name: @this) do
+      {:error, {:already_started, _}} -> :ignore
+      other -> other
+    end
   end
 
   def init(_) do
@@ -33,7 +36,14 @@ defmodule Multiverses.Http do
   end
 
   defp get_registered_impl(id, callers, _from, table) do
-    get_registered(id) || :ets.insert(table, {id, callers})
+    case :ets.select_count(table, [{{:"$1", :_}, [{:==, :"$1", {:const, id}}], [{{}}]}]) do
+      0 ->
+        :ets.insert(table, {id, callers})
+
+      _ ->
+        []
+    end
+
     {:reply, id, table}
   end
 
