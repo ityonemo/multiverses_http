@@ -29,7 +29,7 @@ defmodule Multiverses.Http do
   defp get_registered(table, id) do
     table
     |> :ets.select([{{:"$1", :_}, [{:==, :"$1", {:const, id}}], [:"$1"]}])
-    |> List.first
+    |> List.first()
   end
 
   defp get_registered_impl(id, callers, _from, table) do
@@ -61,7 +61,7 @@ defmodule Multiverses.Http do
   defp get_callers(table, id) do
     table
     |> :ets.select([{{:"$1", :"$2"}, [{:==, :"$1", {:const, id}}], [:"$2"]}])
-    |> List.first
+    |> List.first()
   end
 
   defp get_callers_impl(id, _from, table) do
@@ -72,7 +72,11 @@ defmodule Multiverses.Http do
     Process.put(:"$callers", get_callers(id))
   end
 
-  def handle_call({:get_registered, id, callers}, from, table), do: get_registered_impl(id, callers, from, table)
-  def handle_call({:register, id, callers}, from, table), do: register_impl(id, callers, from, table)
+  def handle_call({:get_registered, id, callers}, from, table),
+    do: get_registered_impl(id, callers, from, table)
+
+  def handle_call({:register, id, callers}, from, table),
+    do: register_impl(id, callers, from, table)
+
   def handle_call({:get_callers, id}, from, table), do: get_callers_impl(id, from, table)
 end
