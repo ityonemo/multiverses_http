@@ -12,6 +12,10 @@ defmodule MultiversesHttpTest.Router do
     |> send_resp(200, "")
   end
 
+  get "/mox" do
+    send_resp(conn, 200, Mocked.value())
+  end
+
   match "/" do
     send_resp(conn, 200, "#{Multiverses.id(Http)}")
   end

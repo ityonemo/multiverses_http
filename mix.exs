@@ -49,6 +49,7 @@ defmodule MultiversesHttp.MixProject do
 
       # for testing and support
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:mox, "~> 1.0", only: :test},
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:dialyxir, "~> 1.2", only: :dev, runtime: false}
     ]
