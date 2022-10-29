@@ -7,10 +7,17 @@ defmodule MultiversesTest.MoxTest do
     Multiverses.shard(Http)
   end
 
-  describe "when you send an arbitrary request to the peer using get/1" do
-    test "it returns the multiverses id with request struct" do
-      assert {:ok, %{body: body}} = @req.get("http://localhost:6002/", max_retries: 1)
-      assert body == "#{Multiverses.id(Http)}"
+  describe "when you send a request" do
+    test "it also connects Mox" do
+      Mox.expect(Mocked, :value, fn -> "value" end)
+      assert {:ok, %{body: "value"}} = @req.get("http://localhost:6001/mox")
+    end
+
+    # mox currently isn't cluster-aware.
+    @tag :skip
+    test "Mox is respected over the cluster" do
+      Mox.expect(Mocked, :value, fn -> "value" end)
+      assert {:ok, %{body: "value"}} = @req.get("http://localhost:6002/mox")
     end
   end
 end

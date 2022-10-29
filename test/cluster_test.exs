@@ -7,8 +7,8 @@ defmodule MultiversesTest.ClusterTest do
     Multiverses.shard(Http)
   end
 
-  describe "when you make a request" do
-    test "the cluster respects your multiverse id" do
+  describe "when you send an arbitrary request to the peer using get/1" do
+    test "it returns the multiverses id with request struct" do
       assert {:ok, %{body: body}} = @req.get("http://localhost:6002/")
       assert body == "#{Multiverses.id(Http)}"
     end
