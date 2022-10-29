@@ -19,6 +19,7 @@ defmodule Multiverses.Plug do
           else
             Process.delete(:"$callers")
           end
+
           conn
         end)
 
