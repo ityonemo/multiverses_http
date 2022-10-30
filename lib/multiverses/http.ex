@@ -1,4 +1,63 @@
 defmodule Multiverses.Http do
+  @moduledoc """
+  Multiverses suite to enable isolated HTTP communications over multiverse shards
+
+  ## How to Use
+
+  ### In your Phoenix endpoint:
+
+  ```
+  defmodule MyAppWeb.Endpoint do
+    #...
+
+    if Mix.env() == :test do
+      plug Multiverses.Http
+    end
+
+    #...
+  end
+  ```
+
+  > #### Warning {: .warning}
+  >
+  > If you anticipate needing to recompile the Endpoint module on the fly you will need a better way to
+  > store the build environment, as the Mix module may not be available to the running VM.
+
+  ### In your test (assuming the `Multiverses.Req` adapter is used)
+
+  - declare that your test shards over the Http multiverses name domain.
+  - alias `Multiverses.Req` instead of using the `Req` module.
+
+  defmodule MyAppTest do
+
+    alias Multiverses.Req
+
+    @port #....
+
+    setup do
+      Multiverses.shard(Http)
+    end
+
+    test "some test" do
+      result = Req.get("localhost:\#{@port}")
+      assert result = #...
+    end
+  end
+
+  ## How it works
+
+  ## Cluster awareness
+
+  `Multiverses.Http` is tested to work over a BEAM cluster.
+
+  If you spin up a cluster as a part of your tests, you can issue an http
+  request to a node that is *not* the node running `ExUnit` and the `:$callers`
+  for the request will be remote pids (relative to the request handlers).
+  Before proceeding with clustered tests, check to see if the modules that
+  depend on this (e.g. `Mox`, `Ecto`) are able to correctly route their sandbox
+  checkouts to the correct node in the cluster.
+  """
+
   use GenServer
 
   @this {:global, __MODULE__}

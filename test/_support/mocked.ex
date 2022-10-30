@@ -1,4 +1,5 @@
 defmodule MockApi do
+  @moduledoc false
   @callback value() :: String.t()
 end
 

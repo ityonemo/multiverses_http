@@ -1,5 +1,13 @@
 if Req in Application.fetch_env!(:multiverses_http, :http_clients) do
   defmodule Multiverses.Req do
+    @moduledoc """
+    `Multiverses` shim for the `Req` library.  Implements all functions found in the
+    `Req` module, replacing `request`, `delete`, `get`, `head`, `patch`, `post`, and
+    `put` (and related functions) with their `Multiverses` equivalent.
+
+    Must be used in tandem with `Multiverses.Plug`
+    """
+
     use Multiverses.Clone,
       module: Req,
       except: [
@@ -32,6 +40,8 @@ if Req in Application.fetch_env!(:multiverses_http, :http_clients) do
         request: 1,
         request: 2,
         # deprecated
+        put!: 3,
+        post!: 3,
         build: 2,
         build: 3
       ]
@@ -58,7 +68,7 @@ if Req in Application.fetch_env!(:multiverses_http, :http_clients) do
       """
       def unquote(function)(url_or_request, options \\ [])
 
-      def unquote(function)(%Req.Request{} = request, options) do
+      def unquote(function)(request = %Req.Request{}, options) do
         request(%{request | method: unquote(function)}, options)
       end
 
