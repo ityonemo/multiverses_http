@@ -46,6 +46,17 @@ defmodule Multiverses.Http do
 
   ## How it works
 
+  The adapters for the http clients inject the `Multiverses.shard/1` id into
+  the http header `x-multiverse-id`.  This is then intercepted by the
+  `Multiverses.Plug` module plug in your Endpoint, which then performs a
+  lookup to obtain the `:$callers` for the request; this `:$callers` chain
+  is then added to the request process dictionary for the duration of the
+  http Plug pipeline.
+
+  Because this exchange installs `:$callers` a side effect is that other
+  services that are `:$callers` aware, such as `Mox` or `Ecto` will be able
+  to see their respective checkouts.
+
   ## Cluster awareness
 
   `Multiverses.Http` is tested to work over a BEAM cluster.
@@ -56,6 +67,13 @@ defmodule Multiverses.Http do
   Before proceeding with clustered tests, check to see if the modules that
   depend on this (e.g. `Mox`, `Ecto`) are able to correctly route their sandbox
   checkouts to the correct node in the cluster.
+
+  ## Other backends
+
+  Currently there is support only for the `Req` client library.  If support for
+  other libraries is desired, please issue a PR.  Compilation of library adapters
+  will be gated on the `:http_clients` application environment variable, which is
+  currently set to `[Req]`.
   """
 
   use GenServer
