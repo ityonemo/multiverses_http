@@ -74,6 +74,13 @@ defmodule Multiverses.Http do
     {:ok, table}
   end
 
+  @doc """
+  obtains the `Multiverses` shard (`Http`) id and registers the current calling
+  process `:$callers` stack, if it has not already been registered.
+
+  Generally you would only want to call this function if you are implementing
+  an adapter for an HTTP or websocket client library.
+  """
   def registered_id do
     Http
     |> Multiverses.id()
@@ -106,6 +113,7 @@ defmodule Multiverses.Http do
     {:reply, id, table}
   end
 
+  @doc false
   def register(id) do
     GenServer.call(@this, {:register, id, get_callers()})
   end
@@ -137,6 +145,16 @@ defmodule Multiverses.Http do
     {:reply, get_callers(table, id), table}
   end
 
+  @doc """
+  finds the current process' `Multiverses` shard (`Http`) id and looks up the
+  associated `:$callers` chain.  This chain is then imported into as the
+  current process' `:$callers` chain.
+
+  Generally you would only want to call this function if you are writing a non-
+  `Plug` http handler or a websocket server.  In such a case you should call
+  this function immediately after associating the current process with the
+  shard using `Multiverses.allow/3` or `Multiverses.allow/2`.
+  """
   def adopt_callers(id) do
     Process.put(:"$callers", get_callers(id))
   end
