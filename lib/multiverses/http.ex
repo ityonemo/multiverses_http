@@ -11,7 +11,7 @@ defmodule Multiverses.Http do
     #...
 
     if Mix.env() == :test do
-      plug Multiverses.Http
+      plug Multiverses.Plug
     end
 
     #...
