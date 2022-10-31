@@ -79,6 +79,8 @@ defmodule Multiverses.Http do
   use GenServer
 
   @this {:global, __MODULE__}
+  @default_http_client [Req]
+  @http_clients Application.compile_env(:multiverses_http, :http_clients, @default_http_client)
 
   def start_link(_) do
     case GenServer.start_link(__MODULE__, [], name: @this) do
@@ -184,4 +186,7 @@ defmodule Multiverses.Http do
     do: register_impl(id, callers, from, table)
 
   def handle_call({:get_callers, id}, from, table), do: get_callers_impl(id, from, table)
+
+  # package-wide utilities
+  def _http_clients, do: @http_clients
 end

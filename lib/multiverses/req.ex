@@ -1,4 +1,6 @@
-if Req in Application.fetch_env!(:multiverses_http, :http_clients) do
+require Multiverses.Http
+
+if Req in Multiverses.Http._http_clients() do
   defmodule Multiverses.Req do
     @moduledoc """
     `Multiverses` shim for the `Req` library.  Implements all functions found in the

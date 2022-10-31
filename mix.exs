@@ -1,14 +1,14 @@
 defmodule MultiversesHttp.MixProject do
   use Mix.Project
 
-  @multiverses_version "0.9.0"
+  @multiverses_version "0.10.0"
   @plug_version "1.13.0"
   @req_version "0.3.1"
 
   def project do
     [
       app: :multiverses_http,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
