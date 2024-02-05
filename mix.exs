@@ -43,6 +43,7 @@ defmodule MultiversesHttp.MixProject do
       {:multiverses, "~> #{@multiverses_version}"},
       {:plug, "~> #{@plug_version}"},
       {:req, "~> #{@req_version}", optional: Mix.env() == :prod},
+      {:phoenix, "~> 1.7", optional: Mix.env() == :prod},
 
       # webserver, but don't deploy it to prod.
       {:bandit, "~> 0.5", only: [:dev, :test]},

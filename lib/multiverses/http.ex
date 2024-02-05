@@ -28,6 +28,7 @@ defmodule Multiverses.Http do
   - declare that your test shards over the Http multiverses name domain.
   - alias `Multiverses.Req` instead of using the `Req` module.
 
+  ```elixir
   defmodule MyAppTest do
 
     alias Multiverses.Req
@@ -43,6 +44,7 @@ defmodule Multiverses.Http do
       assert result = #...
     end
   end
+  ```
 
   ## How it works
 
@@ -71,16 +73,12 @@ defmodule Multiverses.Http do
   ## Other backends
 
   Currently there is support only for the `Req` client library.  If support for
-  other libraries is desired, please issue a PR.  Compilation of library adapters
-  will be gated on the `:http_clients` application environment variable, which is
-  currently set to `[Req]`.
+  other libraries is desired, please issue a PR.
   """
 
   use GenServer
 
   @this {:global, __MODULE__}
-  @default_http_client [Req]
-  @http_clients Application.compile_env(:multiverses_http, :http_clients, @default_http_client)
 
   def start_link(_) do
     case GenServer.start_link(__MODULE__, [], name: @this) do
@@ -186,7 +184,4 @@ defmodule Multiverses.Http do
     do: register_impl(id, callers, from, table)
 
   def handle_call({:get_callers, id}, from, table), do: get_callers_impl(id, from, table)
-
-  # package-wide utilities
-  def _http_clients, do: @http_clients
 end

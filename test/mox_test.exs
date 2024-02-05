@@ -13,8 +13,6 @@ defmodule MultiversesTest.MoxTest do
       assert {:ok, %{body: "value"}} = @req.get("http://localhost:6001/mox")
     end
 
-    # mox currently isn't cluster-aware.
-    @tag :skip
     test "Mox is respected over the cluster" do
       Mox.expect(Mocked, :value, fn -> "value" end)
       assert {:ok, %{body: "value"}} = @req.get("http://localhost:6002/mox")

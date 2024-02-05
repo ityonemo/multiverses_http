@@ -1,6 +1,6 @@
 require Multiverses.Http
 
-if Req in Multiverses.Http._http_clients() do
+if match?({:ok, _}, Application.ensure_all_started(:req)) do
   defmodule Multiverses.Req do
     @moduledoc """
     `Multiverses` shim for the `Req` library.  Implements all functions found in the
@@ -13,6 +13,12 @@ if Req in Multiverses.Http._http_clients() do
     use Multiverses.Clone,
       module: Req,
       except: [
+        async_request: 1,
+        async_request: 2,
+        async_request!: 1,
+        async_request!: 2,
+        cancel_async_request: 1,
+        parse_message: 2,
         delete!: 1,
         delete: 1,
         delete!: 2,
