@@ -11,8 +11,7 @@ defmodule MultiversesHttpTest.Req.HeadTest do
     test "it returns the multiverses id with request struct" do
       assert {:ok, %{headers: headers}} = @req.head("http://localhost:6001/")
 
-      assert {"x-multiverse-response", "#{Multiverses.id(Http)}"} ==
-               List.keyfind!(headers, "x-multiverse-response", 0)
+      assert ["#{Multiverses.id(Http)}"] == Map.fetch!(headers, "x-multiverse-response")
     end
   end
 
@@ -20,8 +19,8 @@ defmodule MultiversesHttpTest.Req.HeadTest do
     test "it returns the multiverses id with request struct" do
       assert {:ok, %{headers: headers}} = @req.head("http://localhost:6001/", [])
 
-      assert {"x-multiverse-response", "#{Multiverses.id(Http)}"} ==
-               List.keyfind!(headers, "x-multiverse-response", 0)
+      assert ["#{Multiverses.id(Http)}"] ==
+               Map.fetch!(headers, "x-multiverse-response")
     end
   end
 
@@ -29,8 +28,8 @@ defmodule MultiversesHttpTest.Req.HeadTest do
     test "it returns the multiverses id with request struct" do
       assert %{headers: headers} = @req.head!("http://localhost:6001/")
 
-      assert {"x-multiverse-response", "#{Multiverses.id(Http)}"} ==
-               List.keyfind!(headers, "x-multiverse-response", 0)
+      assert ["#{Multiverses.id(Http)}"] ==
+               Map.fetch!(headers, "x-multiverse-response")
     end
   end
 
@@ -38,8 +37,7 @@ defmodule MultiversesHttpTest.Req.HeadTest do
     test "it returns the multiverses id with request struct" do
       assert %{headers: headers} = @req.head!("http://localhost:6001/", [])
 
-      assert {"x-multiverse-response", "#{Multiverses.id(Http)}"} ==
-               List.keyfind!(headers, "x-multiverse-response", 0)
+      assert ["#{Multiverses.id(Http)}"] == Map.fetch!(headers, "x-multiverse-response")
     end
   end
 end

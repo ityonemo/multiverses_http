@@ -1,5 +1,3 @@
-StartServer.on_port(6001)
-
 Task.start_link(fn ->
   System.cmd("epmd", [])
 end)
@@ -18,6 +16,8 @@ Process.sleep(100)
 :rpc.call(peer, Application, :ensure_all_started, [:multiverses])
 :rpc.call(peer, Application, :ensure_all_started, [:multiverses_http])
 
-:rpc.call(peer, StartServer, :on_port, [6002])
+:rpc.call(peer, Server, :start, [6002])
+
+Server.start(6001)
 
 ExUnit.start()

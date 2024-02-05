@@ -7,8 +7,8 @@ This package can be installed by adding `multiverses_http` to your list of depen
 ```elixir
 def deps do
   [
-    {:multiverses, "~> 0.9", runtime: (Mix.env == :test)},
-    {:multiverses_http, "~> 0.1.0", runtime: (Mix.env == :test)}
+    {:multiverses, "~> 0.11", only: :test},
+    {:multiverses_http, "~> 0.2", only: :test}
   ]
 end
 ```
