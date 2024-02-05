@@ -8,7 +8,7 @@ defmodule MultiversesHttp.MixProject do
   def project do
     [
       app: :multiverses_http,
-      version: "0.3.0",
+      version: "0.4.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),

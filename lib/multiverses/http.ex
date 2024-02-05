@@ -2,6 +2,11 @@ defmodule Multiverses.Http do
   @moduledoc """
   Multiverses suite to enable isolated HTTP communications over multiverse shards
 
+  > ## You may not need this library {: .warning}
+  >
+  > If you only use `Phoenix.ConnTest` to run your integration tests, you may not
+  > need this library.
+
   ## How to Use
 
   ### In your Phoenix endpoint:
